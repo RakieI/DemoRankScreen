@@ -218,7 +218,6 @@ local function ramdomRanking()
 end
 
 function drawRanking()
-    if gamemode('demo') then
         if roundstart() then -- reset
             ranking_active = false
             ranking_timer = 0
@@ -242,6 +241,5 @@ function drawRanking()
         if currentDemoMode then
             demoRanking(currentDemoMode)
         end
-    end
 end
-hook.add("loop", "demoRank", drawRanking)
+hook.add("loop#demo", "demoRank", drawRanking)
