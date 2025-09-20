@@ -5,8 +5,8 @@ t_base = {
     demo_ranking_portraits = 1,
 }
 motif.hiscore_info = main.f_tableMerge(t_base, motif.hiscore_info)
-
-function demoHiscoreInit(mode)
+local clear = false
+function demoRankingInit(mode)
     start.t_hiscore = { faces = {} }
 
     local t = stats.modes[mode].ranking
@@ -47,13 +47,16 @@ end
 
 local lastHiscoreMode = nil
 
-local function ensureHiscoreFaces(mode)
+local function loadPortraits(mode)
     if lastHiscoreMode == mode and start.t_hiscore and start.t_hiscore.faces then
         return true
     end
-    -- reset
-    local ok = demoHiscoreInit(mode)
-    if ok and start.t_hiscore and start.t_hiscore.faces then
+    --reset
+    if start.t_hiscore then
+        start.t_hiscore.faces = {}
+    end
+    local ok = demoRankingInit(mode)
+    if ok then
         lastHiscoreMode = mode
         return true
     end
@@ -77,7 +80,7 @@ local function lineX(v, i)
         + (motif.hiscore_info.item_spacing[1] + motif.hiscore_info["item_" .. v .. "_spacing"][1]) * (i - 1)
 end
 
-function demoHiscore(t, place)
+function demoRanking(t)
     local t_ranking = (stats and stats.modes and stats.modes[t.mode]) and stats.modes[t.mode].ranking
     if type(t_ranking) ~= "table" then return end
 
@@ -189,9 +192,10 @@ end
 
 local currentDemoMode = nil
 
-local function pickRandomHiscoreMode()
-    if not main.t_hiscoreData then return nil end
-
+local function ramdomRanking()
+    if not main.t_hiscoreData then 
+        return nil 
+    end
     -- dynamically builds the list from the keys in main.t_hiscoreData
     local hiscoreModes = {}
     for mode, data in pairs(main.t_hiscoreData) do
@@ -215,26 +219,28 @@ end
 
 function drawRanking()
     if gamemode('demo') then
-        if roundstart() then
+        if roundstart() then -- reset
             ranking_active = false
             ranking_timer = 0
             ranking_done = false
             currentDemoMode = nil
+            lastHiscoreMode = nil
+            if start.t_hiscore then
+                start.t_hiscore.faces = {}
+            end
         end
-
         if not currentDemoMode then
-            currentDemoMode = pickRandomHiscoreMode()
+            currentDemoMode = ramdomRanking()
             if currentDemoMode then
-                ensureHiscoreFaces(currentDemoMode.mode)
+                loadPortraits(currentDemoMode.mode)
             end
         end
         updateRankingTimer()
         if motif.hiscore_info.demo_ranking_enabled ~= 1 or not ranking_active then
             return
         end
-
         if currentDemoMode then
-            demoHiscore(currentDemoMode, -1)
+            demoRanking(currentDemoMode)
         end
     end
 end
