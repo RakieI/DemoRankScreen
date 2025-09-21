@@ -1,3 +1,17 @@
+-- Demo Rank Screen: Show rankings during Demo Mode
+-- Version: 1.0
+-- Date: 09/21/2025
+-- Author: Rakíel
+-- Compatible with: Ikemen GO v0.99 and nightly
+-- Description: This mod lets you show rankings during Demo Mode, like some old Arcades and some newer games, you must declare specific parameters inside
+-- system.def under [Hiscore Info].
+
+-- [Hiscore Info]
+-- demo.ranking.enabled = 1         - Set to 1 to enable rankings during Demo Mode.(Default is 0)  
+-- demo.ranking.portraits = 1       - Set to 1 to show portraits in the ranking.(Default is 1)
+-- demo.ranking.waittime = 400      - The delay (in frames) after Demo Mode starts before showing the Rankings.
+-- demo.ranking.endtime = 500       - How long the ranking stays on screen.
+
 t_base = {
     demo_ranking_enabled = 0,
     demo_ranking_waittime = 400,

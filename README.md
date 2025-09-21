@@ -4,7 +4,7 @@ Shows rankings during Demo Mode.
 > Last tested on Ikemen GO v0.99 and Nightly Build (2025-09-18)  
 > Module developed by Rakíel
 
-Ikemen GO module to show rankings in Demo Mode, like some games do.
+Ikemen GO module to show rankings during Demo Mode, like some games do.
 
 # Installation
 
